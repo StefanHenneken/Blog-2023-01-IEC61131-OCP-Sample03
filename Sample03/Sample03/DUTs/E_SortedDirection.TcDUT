@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="E_SortedDirection" Id="{8162ade9-4c1e-4a47-8419-c04dd1519ce1}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_SortedDirection :
+(
+	Ascending,
+	Descending
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

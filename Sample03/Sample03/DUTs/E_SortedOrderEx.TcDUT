@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="E_SortedOrderEx" Id="{a21b9025-e3bf-4802-a4be-122a7f5e7dd2}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_SortedOrderEx :
+(
+	Id,
+	Value,
+	Duration
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

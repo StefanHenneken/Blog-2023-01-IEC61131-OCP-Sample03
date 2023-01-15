@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_SequenceManagerEx" Id="{9cacb089-d6d1-46b9-a440-aa4989cb4415}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC FB_SequenceManagerEx EXTENDS FB_SequenceManager
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="SortAscending" Id="{dafa0a40-9019-4b6f-a8f4-b8efa770ddde}">
+      <Declaration><![CDATA[METHOD PRIVATE SortAscending
+VAR_INPUT
+	eSortedOrder		: E_SortedOrderEx;
+END_VAR
+VAR
+	aSequenceHelper		: ARRAY [1..5] OF ST_SequenceItem;
+	stLeft, stRight		: ST_SequenceItem;
+	nMax, nIndex		: DINT;
+	bSwapped			: BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE eSortedOrder OF
+	E_SortedOrderEx.Id:
+		SUPER^.Sort(E_SortedOrder.Id);
+
+	E_SortedOrderEx.Value:
+		SUPER^.Sort(E_SortedOrder.Value);
+
+	E_SortedOrderEx.Duration:
+		REPEAT
+			bSwapped := FALSE;
+			FOR nIndex := 1 TO 4 DO
+				aSequenceHelper := SUPER^.aSequence;
+				stLeft := aSequenceHelper[nIndex];
+				stRight := aSequenceHelper[nIndex + 1];
+				IF (stLeft.nDuration > stRight.nDuration) THEN
+					aSequenceHelper[nIndex + 1] := stLeft;
+					aSequenceHelper[nIndex] := stRight;
+					SUPER^.aSequence := aSequenceHelper;
+					bSwapped := TRUE;
+				END_IF
+			END_FOR
+		UNTIL
+			bSwapped = FALSE
+		END_REPEAT;
+END_CASE
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SortDescending" Id="{61c88813-2427-40e0-a575-8e5527d8204d}">
+      <Declaration><![CDATA[METHOD PRIVATE SortDescending
+VAR_INPUT
+	eSortedOrder		: E_SortedOrderEx;
+END_VAR
+VAR
+	aSequenceHelper		: ARRAY [1..5] OF ST_SequenceItem;
+	stLeft, stRight		: ST_SequenceItem;
+	nMax, nIndex		: DINT;
+	bSwapped			: BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE eSortedOrder OF
+	E_SortedOrderEx.Id:
+		REPEAT
+			bSwapped := FALSE;
+			FOR nIndex := 1 TO 4 DO
+				aSequenceHelper := SUPER^.aSequence;
+				stLeft := aSequenceHelper[nIndex];
+				stRight := aSequenceHelper[nIndex + 1];
+				IF (stLeft.nId < stRight.nId) THEN
+					aSequenceHelper[nIndex + 1] := stLeft;
+					aSequenceHelper[nIndex] := stRight;
+					SUPER^.aSequence := aSequenceHelper;
+					bSwapped := TRUE;
+				END_IF
+			END_FOR
+		UNTIL
+			bSwapped = FALSE
+		END_REPEAT;
+
+	E_SortedOrderEx.Value:
+		REPEAT
+			bSwapped := FALSE;
+			FOR nIndex := 1 TO 4 DO
+				aSequenceHelper := SUPER^.aSequence;
+				stLeft := aSequenceHelper[nIndex];
+				stRight := aSequenceHelper[nIndex + 1];
+				IF (stLeft.nValue < stRight.nValue) THEN
+					aSequenceHelper[nIndex + 1] := stLeft;
+					aSequenceHelper[nIndex] := stRight;
+					SUPER^.aSequence := aSequenceHelper;
+					bSwapped := TRUE;
+				END_IF
+			END_FOR
+		UNTIL
+			bSwapped = FALSE
+		END_REPEAT;
+
+	E_SortedOrderEx.Duration:
+		REPEAT
+			bSwapped := FALSE;
+			FOR nIndex := 1 TO 4 DO
+				aSequenceHelper := SUPER^.aSequence;
+				stLeft := aSequenceHelper[nIndex];
+				stRight := aSequenceHelper[nIndex + 1];
+				IF (stLeft.nDuration < stRight.nDuration) THEN
+					aSequenceHelper[nIndex + 1] := stLeft;
+					aSequenceHelper[nIndex] := stRight;
+					SUPER^.aSequence := aSequenceHelper;
+					bSwapped := TRUE;
+				END_IF
+			END_FOR
+		UNTIL
+			bSwapped = FALSE
+		END_REPEAT;
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SortEx" Id="{474cf44f-80e2-4994-8c8a-142e928a1958}">
+      <Declaration><![CDATA[METHOD PUBLIC SortEx : BOOL
+VAR_INPUT
+	eSortedOrder		: E_SortedOrderEx;
+	eSortedDirection	: E_SortedDirection;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE eSortedDirection OF
+	E_SortedDirection.Ascending:
+		SortAscending(eSortedOrder);
+	E_SortedDirection.Descending:
+		SortDescending(eSortedOrder);
+END_CASE 
+]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

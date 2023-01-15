@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="MAIN" Id="{97b18291-6e7e-4445-af9e-8a6ad63835f0}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	fbSequenceManager	: FB_SequenceManagerEx;
+	nTest				: INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF (nTest = 1) THEN
+	fbSequenceManager.SortEx(E_SortedOrderEx.Id, E_SortedDirection.Ascending);
+	nTest := 0;
+ELSIF (nTest = 2) THEN
+	fbSequenceManager.SortEx(E_SortedOrderEx.Value, E_SortedDirection.Ascending);
+	nTest := 0;
+ELSIF (nTest = 3) THEN
+	fbSequenceManager.SortEx(E_SortedOrderEx.Duration, E_SortedDirection.Ascending);
+	nTest := 0;
+ELSIF (nTest = 4) THEN
+	fbSequenceManager.SortEx(E_SortedOrderEx.Id, E_SortedDirection.Descending);
+	nTest := 0;
+ELSIF (nTest = 5) THEN
+	fbSequenceManager.SortEx(E_SortedOrderEx.Value, E_SortedDirection.Descending);
+	nTest := 0;
+ELSIF (nTest = 6) THEN
+	fbSequenceManager.SortEx(E_SortedOrderEx.Duration, E_SortedDirection.Descending);
+	nTest := 0;
+END_IF
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>
